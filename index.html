@@ -200,7 +200,7 @@
     fill(255, 150);
     textAlign(CENTER, TOP);
     textSize(t.hint);
-    const hint = 'Swipe • Tap Next • ← / →';
+    const hint = 'Tap left = Back • Tap right = Next • Swipe • ← / →';
     text(hint, x, y, w);
     textAlign(LEFT, TOP);
   }
@@ -248,7 +248,7 @@
   // --- input ---
   function mousePressed(){ state.touchStartX = mouseX; state.touchStartY = mouseY; state.touchStartTime = millis(); }
   function mouseReleased(){
-    // Click on buttons
+    // Click on buttons (take priority)
     if (window._buttons) {
       const list = window._buttons;
       window._buttons = []; // reset immediately
@@ -257,6 +257,30 @@
           b.onClick();
           return;
         }
+      }
+    }
+
+    // Swipe detection (dominates over tap zones)
+    const dx = mouseX - (state.touchStartX ?? mouseX);
+    const dy = mouseY - (state.touchStartY ?? mouseY);
+    const dt = millis() - (state.touchStartTime || millis());
+    const absDx = Math.abs(dx), absDy = Math.abs(dy);
+
+    if (dt < 700 && absDx > 40 && absDx > absDy) {
+      if (dx < 0) next(); else prev();
+      return;
+    }
+
+    // Tap zones: left = Back, right = Next/Begin
+    const isTap = (dt < 500) && (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 8);
+    if (isTap) {
+      if (mouseX < width / 2) {
+        prev();
+      } else {
+        if (state.i === slides.length - 1) onBegin(); else next();
+      }
+    }
+  }
       }
     }
 
