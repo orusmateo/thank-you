@@ -132,6 +132,9 @@
     // current slide
     const s = slides[state.i];
 
+    // reset button hitboxes for this frame
+    window._buttons = [];
+
     // Subtle slide-in translate
     push();
     translate(0, (1 - a) * 20);
@@ -248,19 +251,18 @@
   // --- input ---
   function mousePressed(){ state.touchStartX = mouseX; state.touchStartY = mouseY; state.touchStartTime = millis(); }
   function mouseReleased(){
-    // Click on buttons (take priority)
-    if (window._buttons) {
-      const list = window._buttons;
-      window._buttons = []; // reset immediately
-      for (const b of list) {
-        if (mouseX >= b.bx && mouseX <= b.bx + b.bw && mouseY >= b.by && mouseY <= b.by + b.bh) {
-          b.onClick();
-          return;
-        }
+    // 1) Button clicks take priority
+    const list = window._buttons || [];
+    for (const b of list) {
+      if (mouseX >= b.bx && mouseX <= b.bx + b.bw && mouseY >= b.by && mouseY <= b.by + b.bh) {
+        b.onClick();
+        window._buttons = [];
+        return;
       }
     }
+    window._buttons = [];
 
-    // Swipe detection (dominates over tap zones)
+    // 2) Swipe detection (dominates over tap zones)
     const dx = mouseX - (state.touchStartX ?? mouseX);
     const dy = mouseY - (state.touchStartY ?? mouseY);
     const dt = millis() - (state.touchStartTime || millis());
@@ -271,8 +273,8 @@
       return;
     }
 
-    // Tap zones: left = Back, right = Next/Begin
-    const isTap = (dt < 500) && (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 8);
+    // 3) Tap zones: left = Back, right = Next/Begin
+    const isTap = (dt < 500) && (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 10);
     if (isTap) {
       if (mouseX < width / 2) {
         prev();
@@ -281,25 +283,10 @@
       }
     }
   }
-      }
-    }
 
-    // Swipe detection
-    const dx = mouseX - (state.touchStartX ?? mouseX);
-    const dy = mouseY - (state.touchStartY ?? mouseY);
-    const dt = millis() - (state.touchStartTime || millis());
-    const absDx = Math.abs(dx), absDy = Math.abs(dy);
-
-    if (dt < 700 && absDx > 40 && absDx > absDy) {
-      if (dx < 0) next(); else prev();
-      return;
-    }
-
-    // Simple tap to next if not on last slide (and not on a button)
-    if (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 6) {
-      if (state.i < slides.length - 1) next();
-    }
-  }
+  // Touch aliases so iOS/Android fire the same logic
+  function touchStarted(){ mousePressed(); return false; }
+  function touchEnded(){ mouseReleased(); return false; }
 
   function keyPressed(){
     if (keyCode === RIGHT_ARROW) next();
