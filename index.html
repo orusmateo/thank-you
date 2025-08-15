@@ -153,7 +153,7 @@ function onBegin() {
         drawButton(x, y, bw, ui.buttonH, 'Back', () => prev());
       }
       const isBeginSlide = slides[state.i].tag === 'begin';
-      const label = (isBeginSlide || state.i === slides.length - 1) ? 'Begin' : 'Next';
+      const label = (isBeginSlide || state.i === slides.length - 1) ? 'More' : 'Next';
       drawButton(x + w - bw, y, bw, ui.buttonH, label, () => {
         if (isBeginSlide || state.i === slides.length - 1) onBegin(); else next();
       });
