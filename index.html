@@ -22,11 +22,13 @@
     const slides = [
       { tag: 'intro', kicker: 'Welcome', title: 'Thank you.', subtitle: 'A participatory time capsule', body: 'Write a note of gratitude to someone compassionate in your life. All notes will be opened in 2035.' },
       { tag: 'why-1', kicker: 'Why this', title: 'Self as event.', body: 'Let us rediscover self as an event—emergent from co-created interbecoming. Hold this thought as you write.' },
-      { tag: 'how-1', kicker: 'Step 1', title: 'Arrive & breathe.', body: 'Pick up a card at the writing station. Think of someone whose compassion changed you. A single moment is enough.' },
-      { tag: 'how-2', kicker: 'Step 2', title: 'Write your note.', body: 'In 2–5 lines, say thank you. Include a concrete detail that best encapsulates your relationship with them in this moment in time. Sign your name if you like.' },
-      { tag: 'how-3', kicker: 'Step 3', title: 'Seal for 2035.', body: 'Fold and place your note in the envelope and seal your handwritten time-capsule. Optionally, add the recipient’s name on the outside.' },
+      { tag: 'smell-1', kicker: 'Step 1', title: 'Arrive & breathe.', body: 'Pick up and open the fragrance cylinder to your left. Smell the sweet honey notes capture a sense of preferable future, where biodiversity is yet so abundant that we can afford to delight in relationship with flowers.' },
+      { tag: 'smell-2', kicker: 'Step 2', title: 'Breathe & reflect', body: 'Pick up and open the fragrance cylinder to your right. Smell smokey notes that capture a sense of probable future, where the seductive illusions of extractive progress quickly burn our common home.' },
+      { tag: 'how-1', kicker: 'Step 3', title: 'Arrive & breathe.', body: 'Pick up a card at the writing station. Think of someone whose compassion changed you. A single moment is enough.' },
+      { tag: 'how-2', kicker: 'Step 4', title: 'Write your note.', body: 'In 2–5 lines, say thank you. Include a concrete detail that best encapsulates your relationship with them in this moment in time. Sign your name if you like.' },
+      { tag: 'how-3', kicker: 'Step 5', title: 'Seal for 2035.', body: 'Fold and place your note in the envelope and seal your handwritten time-capsule. Add the recipient’s name on the outside. Write `Open in 2035` on the outside of the envelope flap.' },
       { tag: 'why-2', kicker: 'A shared practice', title: 'Interbecoming.', body: 'In Thank you, we become—together. Relief in motion from the vertiginous and distributed condition of being, by gazing into Mystery and holding in our hearts the destiny of the other.' },
-      { tag: 'begin', kicker: 'You are ready', title: 'Begin?', body: 'Tap Begin to add your note. You can also use the ← → keys or swipe to review instructions.' }
+      { tag: 'begin', kicker: 'You are ready', title: 'Begin.', body: 'Write your note. You can also use the ← → keys or swipe to review instructions. Tap More to read about Orus and their larger body of work.' }
     ];
 
     const ACCENT_OPACITY = 220;
@@ -56,6 +58,14 @@
     function prev() { if (state.i > 0) changeTo(state.i - 1); }
     function changeTo(n) { state.i = clamp(n, 0, slides.length - 1); state.animT = 0; state.animV = 0; }
     function onBegin() { console.log('Begin tapped — hook up your capture flow here.'); }
+
+
+function onBegin() {
+  window.top.location.assign("https://orusmateo.com/thank-you");
+}
+
+
+
 
     function setup() {
       createCanvas(windowWidth, windowHeight).parent('p5-holder');
