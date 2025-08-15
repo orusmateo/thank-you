@@ -1,17 +1,26 @@
+
+
+    //{ tag: 'begin', kicker: 'You are ready', title: 'Begin?', body: 'Tap Begin to add your note. You can also use the ← → keys or swipe to review instructions.' },
+    // timer moving image, similar to space man nova, sounds of scribbles? 
+   // { tag: 'during-1', kicker: 'No rush', title: 'Tap the screen when you are done writing', body: ' ' },
+//   { tag: 'after-1', kicker: 'Read more', title: 'Interbecoming.', body: 'Learn more about interbeing, interbecoming, and the urgent role of anticipatory design for sustainability transitions here.' },
+//   { tag: 'after-2', kicker: 'Ending in gratitude', title: 'Thank You.', body: 'Your participation enlivens the possibility of wonder in many. Recommended citation: Castaño-Suárez, Orus Mateo, 2025. Thank You.' }
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Thank you — Onboarding</title>
   <style>
     :root { color-scheme: dark; /* Safe-area CSS variables for iOS/Android notches & home indicator */ --sat: env(safe-area-inset-top, 0px); --sar: env(safe-area-inset-right, 0px); --sab: env(safe-area-inset-bottom, 0px); --sal: env(safe-area-inset-left, 0px); }
     html, body { height: 100%; }
     html, body { margin: 0; padding: 0; background: #000; color: #fff; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", Roboto, Arial, sans-serif; touch-action: manipulation; overscroll-behavior-y: none; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", Roboto, Arial, sans-serif; touch-action: manipulation; }
     canvas { display: block; }
     /* Buttons drawn on canvas, but we use this for any off-canvas a11y helpers later. */
     .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
@@ -33,13 +42,14 @@
 
   const slides = [
     { tag: 'intro', kicker: 'Welcome', title: 'Thank you.', subtitle: 'A participatory time capsule', body: 'Write a note of gratitude to someone compassionate in your life. All notes will be opened in 2035.' },
-    { tag: 'why-1', kicker: 'Why this', title: 'Self as event.', body: 'Let us rediscover self as an event, as emergent from co‑created interbecoming. Hold this thought as you write.' },
+    { tag: 'why-1', kicker: 'Why this', title: 'Self as event.', body: 'Let us rediscover self as an event—emergent from co‑created interbecoming. Hold this thought as you write.' },
     { tag: 'how-1', kicker: 'Step 1', title: 'Arrive & breathe.', body: 'Pick up a card at the writing station. Think of someone whose compassion changed you. A single moment is enough.' },
-    { tag: 'how-2', kicker: 'Step 2', title: 'Write your note.', body: 'In 2–5 lines, say thank you. Note a detail that gives context to this historical moment. Sign your name if you like. When you are done, tap ’Next.’' },
-    { tag: 'how-3', kicker: 'Step 3', title: 'Seal for 2035.', body: 'Fold and place your note in the envelope to seal your handwritten time‑capsule. Optionally, add the recipient’s name on the outside. When you are done, tap ’Next.’' },
-    { tag: 'how-3', kicker: 'Step 4', title: 'Seal for 2035.', body: 'Below the recipient’s name, write ’To be opened in 2035.’ When you are done, tap ’Next.’},
-    { tag: 'why-2', kicker: 'A shared practice', title: 'Interbecoming.', body: 'In Thank you, we become—together. Relief in motion from the vertiginous and distributed condition of being; a gaze into Mystery holding in our hearts the destiny of the ’other.’' },
-    { tag: 'go-1', kicker: 'Gift it.', title: 'Show your gratitude.', body: 'If the person you are thanking is here at the conference, hand them your note. Tell them a summary of your appreciation for them. Then tell them to only open the note in 2035.' }
+    { tag: 'how-2', kicker: 'Step 2', title: 'Write your note.', body: 'In 2–5 lines, say thank you. Include one concrete detail they might have forgotten. Sign your name if you like.' },
+    { tag: 'how-3', kicker: 'Step 3', title: 'Seal for 2035.', body: 'Fold and place your note in the time‑capsule box. Optionally add the recipient’s first name on the outside.' },
+    { tag: 'why-2', kicker: 'A shared practice', title: 'Interbecoming.', body: 'In Thank you, we become—together. Relief in motion from the vertiginous condition of being; a gaze into Mystery.' },
+    { tag: 'reflect', kicker: 'Pause', title: 'A living question.', body: 'What is a hypothesis if not a prayer? What is prayer if not a hypothesis? Attend to what emerges across self and time.' },
+    { tag: 'care', kicker: 'Consent & care', title: 'Your choice matters.', body: 'By participating, you agree your note may be archived until 2035. Prefer privacy? Write “private” on the card.' },
+    { tag: 'begin', kicker: 'You are ready', title: 'Begin?', body: 'Tap Begin to add your note. You can also tap 'Back' or 'Next' to review instructions.' }
   ];
 
   // --- Appearance toggles ---
@@ -131,9 +141,6 @@
     // current slide
     const s = slides[state.i];
 
-    // reset button hitboxes for this frame
-    window._buttons = [];
-
     // Subtle slide-in translate
     push();
     translate(0, (1 - a) * 20);
@@ -202,7 +209,7 @@
     fill(255, 150);
     textAlign(CENTER, TOP);
     textSize(t.hint);
-    const hint = 'Tap left = Back • Tap right = Next • Swipe • ← / →';
+    const hint = 'Swipe • Tap Next • ← / →';
     text(hint, x, y, w);
     textAlign(LEFT, TOP);
   }
@@ -250,18 +257,19 @@
   // --- input ---
   function mousePressed(){ state.touchStartX = mouseX; state.touchStartY = mouseY; state.touchStartTime = millis(); }
   function mouseReleased(){
-    // 1) Button clicks take priority
-    const list = window._buttons || [];
-    for (const b of list) {
-      if (mouseX >= b.bx && mouseX <= b.bx + b.bw && mouseY >= b.by && mouseY <= b.by + b.bh) {
-        b.onClick();
-        window._buttons = [];
-        return;
+    // Click on buttons
+    if (window._buttons) {
+      const list = window._buttons;
+      window._buttons = []; // reset immediately
+      for (const b of list) {
+        if (mouseX >= b.bx && mouseX <= b.bx + b.bw && mouseY >= b.by && mouseY <= b.by + b.bh) {
+          b.onClick();
+          return;
+        }
       }
     }
-    window._buttons = [];
 
-    // 2) Swipe detection (dominates over tap zones)
+    // Swipe detection
     const dx = mouseX - (state.touchStartX ?? mouseX);
     const dy = mouseY - (state.touchStartY ?? mouseY);
     const dt = millis() - (state.touchStartTime || millis());
@@ -272,20 +280,11 @@
       return;
     }
 
-    // 3) Tap zones: left = Back, right = Next/Begin
-    const isTap = (dt < 500) && (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 10);
-    if (isTap) {
-      if (mouseX < width / 2) {
-        prev();
-      } else {
-        if (state.i === slides.length - 1) onBegin(); else next();
-      }
+    // Simple tap to next if not on last slide (and not on a button)
+    if (dist(mouseX, mouseY, state.touchStartX ?? mouseX, state.touchStartY ?? mouseY) < 6) {
+      if (state.i < slides.length - 1) next();
     }
   }
-
-  // Touch aliases so iOS/Android fire the same logic
-  function touchStarted(){ mousePressed(); return false; }
-  function touchEnded(){ mouseReleased(); return false; }
 
   function keyPressed(){
     if (keyCode === RIGHT_ARROW) next();
